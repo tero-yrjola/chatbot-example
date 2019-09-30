@@ -1,25 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useRef, useEffect} from 'react';
+import ChatBot from './components/ChatBot'
 
 function App() {
+  const chatBotRef = useRef();
+  const sendMessage = (message, isFromBot) => chatBotRef.current.addMessageFromOutside(message, isFromBot);
+
+  useEffect(() =>
+      //Here you could do some kind of fetch.then() combo. For example
+      //axios.get('someurl').then(() =>
+      sendMessage('This message was sent from App.js / useEffect (same as the old componentDidMount)', true)
+      //)
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <>
+        <ChatBot ref={chatBotRef}/>
+
+        <div style={{width: '100%', height: 3, backgroundColor: 'black', marginTop: 50}}/>
+        <button onClick={() => sendMessage('Hello I am a message sent from App.js', true)}>Click me</button>
+      </>
   );
 }
 
